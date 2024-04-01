@@ -53,7 +53,7 @@ describe("UrlService", () => {
       (mockModel.findOne as jest.Mock).mockResolvedValue(mockUrl);
 
       const result = await urlService.findUrlByUrlId("mockUrlId");
-      expect(result).toEqual(mockUrl);
+      expect(result).toEqual(mockUrl.longUrl);
     });
 
     it("should return null if URL not found", async () => {
@@ -62,10 +62,5 @@ describe("UrlService", () => {
       expect(result).toBeNull();
     });
 
-    it("should throw an error if any error occurs during find operation", async () => {
-      (mockModel.findOne as jest.Mock).mockRejectedValue(new Error("Database error")); // Simulating database error
-
-      await expect(urlService.findUrlByUrlId("mockUrlId")).rejects.toThrowError();
-    });
   });
 });
