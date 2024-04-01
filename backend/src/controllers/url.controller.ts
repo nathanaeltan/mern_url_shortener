@@ -16,3 +16,27 @@ export const shortenUrlHandler = async (req: Request, res: Response) => {
         url: shortUrl,
     })
 }
+
+export const getUrl = async (req: Request, res: Response) => {
+    const urlId = req.params.id;
+    if(!urlId) return res.status(400).json({
+        success: false,
+        message: 'Missing URL Id',
+    });
+    const url = await urlService.findUrlByUrlId(urlId);
+    if(!url) {
+        return res.status(404).json({
+            success: false,
+            message: 'URL not found',
+        });
+    }
+    return res.redirect(url);
+}
+
+export const getAllUrls = async (req: Request, res: Response) => {
+    const urls = await urlService.findAllUrls();
+    return res.status(200).json({
+        success: true,
+        urls,
+    })
+}

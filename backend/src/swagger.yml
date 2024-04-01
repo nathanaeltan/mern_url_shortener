@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: API documentation using Swagger/OpenAPI
 paths:
-  /api/url/shorten:
+  /url/shorten:
     post:
       tags:
         - URL
@@ -28,6 +28,54 @@ paths:
                 properties:
                   shortUrl:
                     type: string
+        "400":
+          description: Bad request
+          content:
+            application/json: {}
+  /url/{id}:
+    get:
+      tags:
+        - URL
+      summary: Get a URL By ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully Found URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  url:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            application/json: {}
+  /url:
+    get:
+      tags:
+        - URL
+      summary: Get All URLs
+      responses:
+        "200":
+          description: Successfully Found URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  urls:
+                    type: array
         "400":
           description: Bad request
           content:

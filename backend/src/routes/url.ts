@@ -1,8 +1,10 @@
 import express from "express";
-import { shortenUrlHandler } from "../controllers/url.controller";
+import { getAllUrls, getUrl, shortenUrlHandler } from "../controllers/url.controller";
 
 const router = express.Router();
 
+router.get('/', getAllUrls);
+router.get("/:id", getUrl);
+router.post("/shorten", shortenUrlHandler);
 
-router.post("/shorten", shortenUrlHandler)
 export default router;

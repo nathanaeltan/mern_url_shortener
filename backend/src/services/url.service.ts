@@ -9,7 +9,7 @@ export class UrlService {
     this.model = model;
   }
 
-  async create(longUrl: string): Promise<Url | null> {
+  async create(longUrl: string): Promise<string | null> {
     try {
       const maxRetryCount = 3
       let retryCount = 0;
@@ -23,7 +23,7 @@ export class UrlService {
                 shortUrl: `${BASE_URL}/${shortUrlid}`,
 
             });
-            return shortUrl;
+            return shortUrl.shortUrl;
         } else {
             shortUrlid = uuidv4();
             retryCount++;
@@ -35,11 +35,18 @@ export class UrlService {
     }
   }
 
-  async findUrlByUrlId(id: string): Promise<Url | null> {
+  async findUrlByUrlId(id: string): Promise<string | null> {
     const url = await this.model.findOne({
       urlId: id,
     });
-    return url;
+    if(!url) {
+      return null;
+    }
+    return url?.longUrl;
+  }
+
+  async findAllUrls(): Promise<Url[]> {
+    return await this.model.find({}).select('urlId longUrl shortUrl createdAt');
   }
 }
 
