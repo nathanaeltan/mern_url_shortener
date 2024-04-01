@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   frontend:
     build:
@@ -9,6 +10,7 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+
   backend:
     build:
       context: ./backend
@@ -19,7 +21,7 @@ services:
       - ./backend:/app
       - /app/node_modules
     environment:
-      - MONGO_URI=mongodb://mongo:27017/test_db
+      - MONGO_URI=mongodb://admin:password@mongo:27017/test_db?authSource=admin
       - PORT=5001
     depends_on:
       - mongo
@@ -33,7 +35,6 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
-    command: mongod --quiet
     logging:
       driver: "none"
 
