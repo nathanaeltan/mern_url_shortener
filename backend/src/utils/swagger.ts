@@ -1,43 +1,13 @@
-import { Express, Request, Response } from "express";
-import swaggerJsdoc from "swagger-jsdoc";
+import { Express } from "express";
 import swaggerUi from "swagger-ui-express";
-const options: swaggerJsdoc.Options = {
-    definition: {
-      openapi: "3.0.0",
-      info: {
-        title: "REST API Docs",
-        version: "1.0.0",
-      },
-      components: {
-        securitySchemes: {
-          bearerAuth: {
-            type: "http",
-            scheme: "bearer",
-            bearerFormat: "JWT",
-          },
-        },
-      },
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
-    },
-    apis: ["./src/routes/*.ts"],
-  };
+import YAML from "yamljs";
+import path from "path";
 
-  const swaggerSpec = swaggerJsdoc(options);
+const yamlFilePath = path.resolve(__dirname, "../swagger.yml");
+const swaggerDoc = YAML.load(yamlFilePath);
+function swaggerDocs(app: Express) {
+  // Swagger page
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+}
 
-  function swaggerDocs(app: Express) {
-    // Swagger page
-    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  
-    // Docs in JSON format
-    app.get("/docs.json", (req: Request, res: Response) => {
-      res.setHeader("Content-Type", "application/json");
-      res.send(swaggerSpec);
-    });
-  
-  }
-
-  export default swaggerDocs;
+export default swaggerDocs;

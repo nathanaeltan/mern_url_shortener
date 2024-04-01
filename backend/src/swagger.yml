@@ -1,0 +1,34 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 1.0.0
+  description: API documentation using Swagger/OpenAPI
+paths:
+  /api/url/shorten:
+    post:
+      tags:
+        - URL
+      summary: Shorten a URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                longUrl:
+                  type: string
+      responses:
+        "201":
+          description: Successfully Generated a shortened URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shortUrl:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            application/json: {}
