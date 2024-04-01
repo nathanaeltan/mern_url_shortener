@@ -47,7 +47,7 @@ Before you begin, ensure that you have the following installed on your system:
     - API Docs: The API documentation will be accessible at `http://localhost:5001/docs`
 
 
-### Project Requirements
+## Project Requirements
 
 1. Develop a back-end (REST / HTTP API) server which:
 a. returns a short URL when given a specified URL
@@ -72,5 +72,8 @@ new shortened URLs.
 1. React was chosen for its ability to create dynamic user interfaces and component based architecture. 
 2. Additionally Redux was chosen as the global state management tool to access the state from the various components that were created easily without passing props down
 3. Tailwind CSS was also used for ease of styling through class names.
+
+
+
 
 

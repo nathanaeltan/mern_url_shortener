@@ -14,7 +14,8 @@ type Url = {
 }
 type CreateURLResponse = {
     success: boolean;
-    url: Url
+    url: Url,
+    message?: string;
 }
 
 
@@ -36,17 +37,26 @@ const initialState: InitialState = {
 const shortUrlSlice = createSlice({
   name: "shortUrl",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError(state) {
+      state.error = "";
+    }
+  },
   extraReducers(builder) {
     builder.addCase(shortenUrl.pending, (state) => {
       state.loading = true;
+      state.error = "";
     });
     builder.addCase(
       shortenUrl.fulfilled,
       (state, action: PayloadAction<CreateURLResponse>) => {
+        if(action.payload.success) {
+          state.shortUrl = action.payload.url.shortUrl;
+          state.urls = [action.payload.url, ...state.urls];
+        } else {
+          state.error = action.payload.message || 'Something went wrong';
+        }
         state.loading = false;
-        state.shortUrl = action.payload.url.shortUrl;
-        state.urls = [action.payload.url, ...state.urls];
       }
     );
     builder.addCase(shortenUrl.rejected, (state, action) => {
@@ -57,10 +67,12 @@ const shortUrlSlice = createSlice({
 
     builder.addCase(getAllUrls.pending, (state) => {
         state.loading = true;
+        state.error = "";
     });
     builder.addCase(getAllUrls.fulfilled, (state, action: PayloadAction<GetAllUrlResponse>) => {
         state.loading = false;
         state.urls = action.payload.urls;
+        state.error = "";
     });
     builder.addCase(getAllUrls.rejected, (state, action) => {
         state.loading = false;
@@ -68,5 +80,5 @@ const shortUrlSlice = createSlice({
       });
   },
 });
-
+export const {clearError} = shortUrlSlice.actions;
 export default shortUrlSlice.reducer;

@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { useAppDispatch } from "../store/hooks";
 import { shortenUrl } from "../actions/short-url-actions";
 import Modal from "./Modal";
+import ErrorModal from "./ErrorModal";
 const UrlInput = () => {
   const dispatch = useAppDispatch();
 
@@ -40,6 +41,7 @@ const UrlInput = () => {
         </form>
       </div>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <ErrorModal />
     </>
   );
 };

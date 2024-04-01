@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Sample API
+  title: MERN Shortner API
   version: 1.0.0
   description: API documentation using Swagger/OpenAPI
 paths:
@@ -26,8 +26,34 @@ paths:
               schema:
                 type: object
                 properties:
-                  shortUrl:
-                    type: string
+                  success:
+                    type: boolean
+                  url:
+                    type: object
+                    properties:
+                      urlId:
+                        type: string
+                        example: "DbWSWZqjBaS1nCn2WIfB7"
+                      longUrl:
+                        type: string
+                        example: "https://github.com/ai/nanoid#readme"
+                      shortUrl:
+                        type: string
+                        example: "http://localhost:5001/url/DbWSWZqjBaS1nCn2WIfB7"
+                      _id:
+                        type: string
+                        example: "660a9af5fa222802a15a4316"
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2024-04-01T11:31:01.430Z"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2024-04-01T11:31:01.430Z"
+                      __v:
+                        type: integer
+                        example: 0
         "400":
           description: Bad request
           content:
