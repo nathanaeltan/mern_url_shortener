@@ -74,6 +74,14 @@ new shortened URLs.
 3. Tailwind CSS was also used for ease of styling through class names.
 
 
+##### Limitations and future improvements
+1. While req validation is done such as checking if its a valid URL and checking if valid ids are passed, better input validation to sanitize input to prevent NoSQL injection can be implemented
+    - Can possibly use middleware such as express-validator to sanitize input before hitting the controller
+2. Authorization and Authentication can be implemented so that we don't expose everyone's URL to the public, especially for private links that wished to be shortened.
+3. Rate Limiting could be implemented to prevent abuse/DDOS
+    - Possible to limit based on user ID, or IP address.
+
+
 
 
 
