@@ -13,7 +13,7 @@ const Table = () => {
   const handleClickCopy = async (shortUrl: string, index: number) => {
     try {
       await navigator.clipboard.writeText(shortUrl);
-      setCopiedIndex(index)
+      setCopiedIndex(index);
     } catch (error) {
       console.log("Error in Copying to Clipboard", error);
     }
@@ -32,17 +32,26 @@ const Table = () => {
             <th scope="col" className="px-6 py-3">
               Created At
             </th>
+            <th scope="col" className="px-6 py-3"></th>
           </tr>
         </thead>
 
         <tbody>
           {loading ? (
-            <div>
-                Loading
-            </div>
+            <tr>
+              <td colSpan={3}>Loading...</td>
+            </tr>
           ) : (
             urls.map((url, index) => {
-              return <TableRow handleClickCopy={handleClickCopy} copiedIndex={copiedIndex} index={index} url={url} key={url.urlId}/>
+              return (
+                <TableRow
+                  handleClickCopy={handleClickCopy}
+                  copiedIndex={copiedIndex}
+                  index={index}
+                  url={url}
+                  key={url.urlId}
+                />
+              );
             })
           )}
         </tbody>

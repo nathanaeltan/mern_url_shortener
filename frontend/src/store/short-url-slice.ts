@@ -18,7 +18,6 @@ type CreateURLResponse = {
 }
 
 
-
 type InitialState = {
   loading: boolean;
   shortUrl: string;
@@ -47,7 +46,7 @@ const shortUrlSlice = createSlice({
       (state, action: PayloadAction<CreateURLResponse>) => {
         state.loading = false;
         state.shortUrl = action.payload.url.shortUrl;
-        state.urls = [...state.urls, action.payload.url];
+        state.urls = [action.payload.url, ...state.urls];
       }
     );
     builder.addCase(shortenUrl.rejected, (state, action) => {

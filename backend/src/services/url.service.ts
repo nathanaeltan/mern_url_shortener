@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 import urlModel, { Url } from "../models/url.model";
-import { v4 as uuidv4 } from 'uuid';
+import {nanoid} from "nanoid";
 const BASE_URL = process.env.BASE_URL || "http://localhost:5001/url"
 export class UrlService {
   private readonly model: Model<Url>;
@@ -13,7 +13,7 @@ export class UrlService {
     try {
       const maxRetryCount = 3
       let retryCount = 0;
-      let shortUrlid = uuidv4();
+      let shortUrlid = nanoid();
       while (retryCount < maxRetryCount) {
         const existingUrl = await this.findUrlByUrlId(shortUrlid);
         if(!existingUrl) {
@@ -25,7 +25,7 @@ export class UrlService {
             });
             return shortUrl;
         } else {
-            shortUrlid = uuidv4();
+            shortUrlid = nanoid();
             retryCount++;
         }
       }
@@ -46,7 +46,7 @@ export class UrlService {
   }
 
   async findAllUrls(): Promise<Url[]> {
-    return await this.model.find({}).select('urlId longUrl shortUrl createdAt');
+    return await this.model.find({}).select('urlId longUrl shortUrl createdAt').sort({createdAt: -1});
   }
 }
 
