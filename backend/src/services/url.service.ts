@@ -9,7 +9,7 @@ export class UrlService {
     this.model = model;
   }
 
-  async create(longUrl: string): Promise<string | null> {
+  async create(longUrl: string): Promise<Url | null> {
     try {
       const maxRetryCount = 3
       let retryCount = 0;
@@ -23,7 +23,7 @@ export class UrlService {
                 shortUrl: `${BASE_URL}/${shortUrlid}`,
 
             });
-            return shortUrl.shortUrl;
+            return shortUrl;
         } else {
             shortUrlid = uuidv4();
             retryCount++;
