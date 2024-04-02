@@ -62,16 +62,25 @@ paths:
     get:
       tags:
         - URL
-      summary: Get a URL By ID
+      summary: Retrieve URL by ID
+      description: Retrieve the long URL associated with the given ID
       parameters:
         - in: path
           name: id
+          description: ID of the URL to retrieve
           required: true
           schema:
             type: string
       responses:
-        "200":
-          description: Successfully Found URL
+        '200':
+          description: Redirects to the long URL
+          headers:
+            Location:
+              description: URL to redirect to
+              schema:
+                type: string
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -79,20 +88,45 @@ paths:
                 properties:
                   success:
                     type: boolean
-                  url:
+                    example: false
+                  message:
                     type: string
-        "400":
-          description: Bad request
+                    example: Missing URL Id
+        '404':
+          description: Not Found
           content:
-            application/json: {}
-  /url:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: URL not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Internal Server Error
+  /urls:
     get:
       tags:
         - URL
-      summary: Get All URLs
+      summary: Retrieve all URLs
+      description: Retrieve all URLs stored in the system
       responses:
-        "200":
-          description: Successfully Found URL
+        '200':
+          description: OK
           content:
             application/json:
               schema:
@@ -100,9 +134,38 @@ paths:
                 properties:
                   success:
                     type: boolean
+                    example: true
                   urls:
                     type: array
-        "400":
-          description: Bad request
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: "660ab8d2c02fcc6b0b3db742"
+                        urlId:
+                          type: string
+                          example: "nyvEm4cZ5sjuIa7-E8szo"
+                        longUrl:
+                          type: string
+                          example: "https://www.longurl.com/longer/longerer/longerest"
+                        shortUrl:
+                          type: string
+                          example: "http://localhost:5001/url/nyvEm4cZ5sjuIa7-E8szo"
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2024-04-01T13:38:26.091Z"
+        '500':
+          description: Internal Server Error
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Internal Server Error

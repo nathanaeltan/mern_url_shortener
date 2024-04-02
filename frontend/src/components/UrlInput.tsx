@@ -1,13 +1,14 @@
-import { FormEvent, useState } from "react";
-import { useAppDispatch } from "../store/hooks";
+import { FormEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { shortenUrl } from "../actions/short-url-actions";
 import Modal from "./Modal";
 import ErrorModal from "./ErrorModal";
 const UrlInput = () => {
   const dispatch = useAppDispatch();
-
+  const { error } = useAppSelector((state) => state.shortUrl);
   const [longUrl, setLongUrl] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBtnDisabled, setBtnDisabled] = useState(true);
 
   const handleShortenUrl = (e: FormEvent) => {
     e.preventDefault();
@@ -15,9 +16,20 @@ const UrlInput = () => {
     setLongUrl("");
     setIsModalOpen(true);
   };
+  const handleInputChange = (input: string) => {
+    if(input) {
+      setBtnDisabled(false);
+    }
+    setLongUrl(input)
+  }
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  useEffect(() => {
+    if(error) {
+      setIsModalOpen(false);
+    }
+  },[error])
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  items-center mt-6">
@@ -27,11 +39,12 @@ const UrlInput = () => {
               className="block w-full p-4  text-sm text-gray-900 border border-gray-300 rounded-lg bg-emerald-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:outline-none"
               placeholder="Shorten That URL..."
               required
-              onChange={(e) => setLongUrl(e.target.value)}
+              onChange={(e) => handleInputChange(e.target.value)}
               value={longUrl}
             />
             <button
               type="submit"
+              disabled={isBtnDisabled}
               className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={handleShortenUrl}
             >

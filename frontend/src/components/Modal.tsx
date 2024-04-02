@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../store/hooks";
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 const Modal = ({ isOpen, onClose }: ModalProps) => {
-  const { loading, shortUrl } = useAppSelector((state) => state.shortUrl);
+  const { loading, shortUrl, error } = useAppSelector((state) => state.shortUrl);
   const [copied, setCopied] = useState(false);
   const handleCopyClick = async () => {
     try {
@@ -15,9 +15,14 @@ const Modal = ({ isOpen, onClose }: ModalProps) => {
       console.log("Error in Copying to Clipboard", error);
     }
   };
+  useEffect(() => {
+    if (isOpen) {
+      setCopied(false);
+    }
+  }, [isOpen]);
   return (
     <>
-      {isOpen && shortUrl && !loading && (
+      {isOpen && shortUrl && !loading && !error && (
         <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white w-1/2 p-6 rounded-lg">
             <div className="flex justify-between items-center mb-4">
