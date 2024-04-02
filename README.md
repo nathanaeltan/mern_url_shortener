@@ -76,6 +76,10 @@ new shortened URLs.
 2. Additionally Redux was chosen as the global state management tool to access the state from the various components that were created easily without passing props down
 3. Tailwind CSS was also used for ease of styling through class names.
 
+##### Third Party Libraries
+1. Nanoid (to generate ID for short URL)
+2. Swagger (for API documentation)
+
 
 ##### Limitations and future improvements
 1. While req validation is done such as checking if its a valid URL and checking if valid ids are passed, better input validation to sanitize input to prevent NoSQL injection can be implemented
