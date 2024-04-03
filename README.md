@@ -6,10 +6,10 @@ A URL Shortener application built on MERN (MongoDB, Express.JS, React.JS, Node.J
 * Shorten Long URLs to easily shareable short links
 * Store the shortened URLs in a MongoDB Database
 * Retrieve and redirect to original URLs using short links
-* User friendly interface for creating and viewing the shortened URLs
+* User friendly interface for creating the shortened URLs
 
-![Main Page](/screenshots//main_page.png)
-![Successful Shorten](/screenshots//success_flow.png)
+![Main Page](/screenshots/main_page.png)
+![Successful Shorten](/screenshots/success_flow.png)
 #### How to run
 ## Prerequisites
 
