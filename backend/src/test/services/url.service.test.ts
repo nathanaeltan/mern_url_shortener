@@ -31,6 +31,35 @@ describe("UrlService", () => {
       const result = await urlService.create("http://example.com");
       expect(result).toEqual(mockUrl);
     });
+    it("should create a new entry with the same URL", async () => {
+      const mockUrl1: Url = {
+        urlId: "mockUrlId1",
+        longUrl: "http://example.com",
+        shortUrl: "http://localhost:5001/url/mockUrlId1",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    
+      const mockUrl2: Url = {
+        urlId: "mockUrlId2",
+        longUrl: "http://example.com",
+        shortUrl: "http://localhost:5001/url/mockUrlId2",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    
+    
+      (mockModel.create as jest.Mock)
+        .mockResolvedValueOnce(mockUrl1)
+        .mockResolvedValueOnce(mockUrl2);
+    
+      const result1 = await urlService.create("http://example.com");
+      expect(result1).toEqual(mockUrl1);
+    
+      const result2 = await urlService.create("http://example.com");
+      expect(result2).toEqual(mockUrl2);
+    
+    });
 
 
     it("should throw an error if any error occurs during create operation", async () => {

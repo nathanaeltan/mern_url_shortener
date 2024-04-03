@@ -2,7 +2,7 @@ import { InferSchemaType, model, Schema } from "mongoose";
 
 const urlSchema = new Schema({
     urlId: { type: String, required: true, unique: true, index: true },
-    longUrl: { type: String, required: true, unique: true },
+    longUrl: { type: String, required: true },
     shortUrl: { type: String, required: true, unique: true },
 
 }, {

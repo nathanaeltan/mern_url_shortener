@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 import urlModel, { Url } from "../models/url.model";
-import {nanoid} from "nanoid";
+import generateShortUrl from "../utils/shortId";
 const BASE_URL = process.env.BASE_URL || "http://localhost:5001/url"
 export class UrlService {
   private readonly model: Model<Url>;
@@ -13,7 +13,7 @@ export class UrlService {
     try {
       const maxRetryCount = 3
       let retryCount = 0;
-      let shortUrlid = nanoid();
+      let shortUrlid = generateShortUrl();
       while (retryCount < maxRetryCount) {
         const existingUrl = await this.findUrlByUrlId(shortUrlid);
         if(!existingUrl) {
@@ -25,7 +25,7 @@ export class UrlService {
             });
             return shortUrl;
         } else {
-            shortUrlid = nanoid();
+            shortUrlid = generateShortUrl();
             retryCount++;
         }
       }
